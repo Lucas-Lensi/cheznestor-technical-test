@@ -8,8 +8,8 @@ https://dbdiagram.io/d/643141ca8615191cfa8c52b2
 
 ## Install
 
-    $ git clone https://github.com/YOUR_USERNAME/PROJECT_TITLE
-    $ cd PROJECT_TITLE
+    $ git clone git@github.com:Lucas-Lensi/cheznestor-technical-test.git
+    $ cd cheznestor-technical-test
     $ npm install
 
 ## Configure app
