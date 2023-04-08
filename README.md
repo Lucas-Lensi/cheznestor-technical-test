@@ -16,8 +16,8 @@ https://dbdiagram.io/d/643141ca8615191cfa8c52b2
 
 Create a .env file with:
 
-- PORT:YOUR-PORT
-- MONGODB_URI:YOUR-MONGODB-URI
+- PORT = YOUR-PORT
+- MONGODB_URI = YOUR-MONGODB-URI
 
 ## Running the project
 
