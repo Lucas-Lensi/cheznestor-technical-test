@@ -1,8 +1,10 @@
-# Project Title
-
-A nice project with a nice description
+# Technical test - Chez Nestor - Lucas Lensi
 
 ---
+
+## Database model
+
+https://dbdiagram.io/d/643141ca8615191cfa8c52b2
 
 ## Install
 
