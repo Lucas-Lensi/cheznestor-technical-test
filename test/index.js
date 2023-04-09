@@ -1,1 +1,1 @@
-import '../modules/calculator/calculator.service.test.js';
+import '../modules/auth/auth.test.js';
