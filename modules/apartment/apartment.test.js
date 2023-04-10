@@ -28,6 +28,8 @@ const apartment = {
   }
 };
 
+let apartmentId;
+
 describe('Apartment', () => {
   let userToken;
   let commercialToken;
@@ -109,6 +111,7 @@ describe('Apartment', () => {
           res.body.data.apartment.address.should.have.property('zipCode');
           res.body.data.apartment.address.should.have.property('city');
           res.body.data.apartment.address.should.have.property('country');
+          apartmentId = res.body.data.apartment._id;
         });
         chai
         .request(server)
@@ -133,6 +136,53 @@ describe('Apartment', () => {
           res.body.data.apartment.address.should.have.property('city');
           res.body.data.apartment.address.should.have.property('country');
         done();
+        });
+    });
+  });
+
+  describe('Test GET /apartment/ route', () => {
+    it('It should return a list of all apartments', (done) => {
+      chai
+        .request(server)
+        .get('/apartment')
+        .set({ "Authorization": `Bearer ${userToken}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('apartments');
+          res.body.data.apartments.should.be.an('array');
+          res.body.data.apartments.should.have.length(2);
+          done();
+        });
+    });
+  });
+
+  describe('Test GET /apartment/:id route', () => {
+    it('It should return an apartment', (done) => {
+      chai
+        .request(server)
+        .get(`/apartment/${apartmentId}`)
+        .set({ "Authorization": `Bearer ${userToken}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('apartment');
+          res.body.data.apartment.should.have.property('_id');
+          res.body.data.apartment.should.have.property('createdAt');
+          res.body.data.apartment.should.have.property('updatedAt');
+          res.body.data.apartment.should.have.property('title');
+          res.body.data.apartment.should.have.property('area');
+          res.body.data.apartment.should.have.property('address');
+          res.body.data.apartment.address.should.be.a('object');
+          res.body.data.apartment.address.should.have.property('street');
+          res.body.data.apartment.address.should.have.property('zipCode');
+          res.body.data.apartment.address.should.have.property('city');
+          res.body.data.apartment.address.should.have.property('country');
+          done();
         });
     });
   });

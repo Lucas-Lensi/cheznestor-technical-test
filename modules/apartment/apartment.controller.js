@@ -1,5 +1,9 @@
 import AppError from '../../plugins/appError.js';
-import { createApartment, findApartmentById } from './apartment.service.js';
+import {
+  createApartment,
+  findAllApartments,
+  findApartmentById,
+} from './apartment.service.js';
 
 export const createApartmentHandler = async (req, res, next) => {
   try {
@@ -21,6 +25,18 @@ export const getApartmentByIdHandler = async (req, res, next) => {
     return res.status(200).json({
       status: 'success',
       data: { apartment },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllApartments = async (req, res, next) => {
+  try {
+    const apartments = await findAllApartments();
+    return res.status(200).json({
+      status: 'success',
+      data: { apartments },
     });
   } catch (error) {
     next(error);

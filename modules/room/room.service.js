@@ -10,6 +10,11 @@ export const findRoomById = async (_id) => {
   return room;
 };
 
+export const findAllRooms = async () => {
+  const rooms = await roomModel.find().lean();
+  return rooms;
+};
+
 export const deleteRoomById = async (_id) => {
   const deletedRoom = await roomModel.deleteOne({ _id });
   return deletedRoom;

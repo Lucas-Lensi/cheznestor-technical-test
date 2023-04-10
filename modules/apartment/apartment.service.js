@@ -10,6 +10,11 @@ export const findApartmentById = async (_id) => {
   return apartment;
 };
 
+export const findAllApartments = async () => {
+  const apartments = await apartmentModel.find().lean();
+  return apartments;
+};
+
 export const deleteApartmentById = async (_id) => {
   const deletedApartment = await apartmentModel.deleteOne({ _id });
   return deletedApartment;

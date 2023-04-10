@@ -24,6 +24,8 @@ const room = {
   appartmentId: '',
 };
 
+let roomId;
+
 describe('Room', () => {
   let userToken;
   let commercialToken;
@@ -117,7 +119,51 @@ describe('Room', () => {
           res.body.data.room.should.have.property('area');
           res.body.data.room.should.have.property('price');
           res.body.data.room.should.have.property('apartmentId');
+          roomId = res.body.data.room._id;
         done();
+        });
+    });
+  });
+
+  describe('Test GET /room/ route', () => {
+    it('It should return a list of all rooms', (done) => {
+      chai
+        .request(server)
+        .get('/room')
+        .set({ "Authorization": `Bearer ${userToken}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('rooms');
+          res.body.data.rooms.should.be.an('array');
+          res.body.data.rooms.should.have.length(1);
+          done();
+        });
+    });
+  });
+
+  describe('Test GET /room/:id route', () => {
+    it('It should return a room', (done) => {
+      chai
+        .request(server)
+        .get(`/room/${roomId}`)
+        .set({ "Authorization": `Bearer ${userToken}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('room');
+          res.body.data.room.should.have.property('_id');
+          res.body.data.room.should.have.property('createdAt');
+          res.body.data.room.should.have.property('updatedAt');
+          res.body.data.room.should.have.property('title');
+          res.body.data.room.should.have.property('area');
+          res.body.data.room.should.have.property('price');
+          res.body.data.room.should.have.property('apartmentId');
+          done();
         });
     });
   });
