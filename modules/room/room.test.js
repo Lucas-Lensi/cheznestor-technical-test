@@ -168,6 +168,57 @@ describe('Room', () => {
     });
   });
 
+  describe('Test PUT /room/:id route', () => {
+    it('It should return an error if no token specified', (done) => {
+      chai
+        .request(server)
+        .put(`/room/${roomId}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('You are not logged in');
+          done();
+        });
+    });
+    it('It should return an error if user is not commercial', (done) => {
+      chai
+        .request(server)
+        .put(`/room/${roomId}`)
+        .set({ "Authorization": `Bearer ${userToken}` })
+        .send(room)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Not authorized');
+          done();
+        });
+    });
+    it('It should update and return the updated room', (done) => {
+      chai
+        .request(server)
+        .put(`/room/${roomId}`)
+        .set({ "Authorization": `Bearer ${commercialToken}` })
+        .send({ ...room, title: 'Chambre Lumineuse' })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('room');
+          res.body.data.room.should.have.property('_id');
+          res.body.data.room.should.have.property('createdAt');
+          res.body.data.room.should.have.property('updatedAt');
+          res.body.data.room.should.have.property('title').eql('Chambre Lumineuse');
+          res.body.data.room.should.have.property('area');
+          res.body.data.room.should.have.property('price');
+          res.body.data.room.should.have.property('apartmentId');
+          done();
+        });
+    });
+  });
+
   after((done) => {
     server.close();
     done();

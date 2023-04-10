@@ -15,6 +15,13 @@ export const findAllApartments = async () => {
   return apartments;
 };
 
+export const updateApartmentById = async (_id, input) => {
+  const updatedApartment = await apartmentModel
+    .findByIdAndUpdate(_id, input, { new: true })
+    .lean();
+  return updatedApartment;
+};
+
 export const deleteApartmentById = async (_id) => {
   const deletedApartment = await apartmentModel.deleteOne({ _id });
   return deletedApartment;

@@ -187,6 +187,61 @@ describe('Apartment', () => {
     });
   });
 
+  describe('Test PUT /apartment/:id route', () => {
+    it('It should return an error if no token specified', (done) => {
+      chai
+        .request(server)
+        .put(`/apartment/${apartmentId}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('You are not logged in');
+          done();
+        });
+    });
+    it('It should return an error if user is not commercial', (done) => {
+      chai
+        .request(server)
+        .put(`/apartment/${apartmentId}`)
+        .set({ "Authorization": `Bearer ${userToken}` })
+        .send(apartment)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Not authorized');
+          done();
+        });
+    });
+    it('It should update and return the updated apartment', (done) => {
+      chai
+        .request(server)
+        .put(`/apartment/${apartmentId}`)
+        .set({ "Authorization": `Bearer ${commercialToken}` })
+        .send({ ...apartment, title: 'Appartement Lumineux' })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('apartment');
+          res.body.data.apartment.should.have.property('_id');
+          res.body.data.apartment.should.have.property('createdAt');
+          res.body.data.apartment.should.have.property('updatedAt');
+          res.body.data.apartment.should.have.property('title').eql('Appartement Lumineux');
+          res.body.data.apartment.should.have.property('area');
+          res.body.data.apartment.should.have.property('address');
+          res.body.data.apartment.address.should.be.a('object');
+          res.body.data.apartment.address.should.have.property('street');
+          res.body.data.apartment.address.should.have.property('zipCode');
+          res.body.data.apartment.address.should.have.property('city');
+          res.body.data.apartment.address.should.have.property('country');
+          done();
+        });
+    });
+  });
+
   after((done) => {
     server.close();
     done();

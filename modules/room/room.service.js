@@ -15,6 +15,13 @@ export const findAllRooms = async () => {
   return rooms;
 };
 
+export const updateRoomById = async (_id, input) => {
+  const updatedRoom = await roomModel
+    .findByIdAndUpdate(_id, input, { new: true })
+    .lean();
+  return updatedRoom;
+};
+
 export const deleteRoomById = async (_id) => {
   const deletedRoom = await roomModel.deleteOne({ _id });
   return deletedRoom;

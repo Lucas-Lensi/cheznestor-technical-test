@@ -5,14 +5,27 @@ import {
   createApartmentHandler,
   getAllApartments,
   getApartmentByIdHandler,
+  putApartmentHandler,
 } from './apartment.controller.js';
 import checkAuthenticatedRequest from '../../middleware/checkAuthenticatedRequest.js';
-import { createApartmentSchema } from './apartment.schema.js';
+import {
+  createApartmentSchema,
+  updateApartmentSchema,
+} from './apartment.schema.js';
 
 const router = express.Router();
 
 router.get('/', checkAuthenticatedRequest, getAllApartments);
 router.get('/:id', checkAuthenticatedRequest, getApartmentByIdHandler);
+
+router.put(
+  '/:id',
+  checkAuthenticatedRequest,
+  updateApartmentSchema(),
+  validate,
+  putApartmentHandler
+);
+
 router.post(
   '/',
   checkAuthenticatedRequest,

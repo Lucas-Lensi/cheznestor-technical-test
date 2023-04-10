@@ -1,6 +1,11 @@
 import AppError from '../../plugins/appError.js';
 import { findApartmentById } from '../apartment/apartment.service.js';
-import { createRoom, findRoomById, findAllRooms } from './room.service.js';
+import {
+  createRoom,
+  findRoomById,
+  findAllRooms,
+  updateRoomById,
+} from './room.service.js';
 
 export const createRoomHandler = async (req, res, next) => {
   try {
@@ -38,6 +43,20 @@ export const getAllRooms = async (req, res, next) => {
     return res.status(200).json({
       status: 'success',
       data: { rooms },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const putRoomHandler = async (req, res, next) => {
+  try {
+    // eslint-disable-next-line prettier/prettier
+    if (!req.user.isCommercial) return next(new AppError('Not authorized', 401));
+    const room = await updateRoomById(req.params.id, req.body);
+    return res.status(200).json({
+      status: 'success',
+      data: { room },
     });
   } catch (error) {
     next(error);
