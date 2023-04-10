@@ -20,6 +20,15 @@ const user = {
   password_confirmation: 'password',
 };
 
+const commercial = {
+  firstname: 'John',
+  lastname: 'Doe',
+  email: 'john.doe@gmail.com',
+  password: 'password',
+  password_confirmation: 'password',
+  isCommercial: true
+};
+
 describe('Auth', () => {
 
   before((done) => {
@@ -36,8 +45,9 @@ describe('Auth', () => {
         .send(omit(user, 'email'))
         .end((err, res) => {
           res.should.have.status(422);
-          res.body.should.be.a('object');
-          res.body.should.have.property('errors');
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message');
+          res.body.message.should.have.deep.members([{'email': 'Email is required'}]);
           done();
         });
     });
@@ -55,6 +65,29 @@ describe('Auth', () => {
           res.body.data.user.should.have.property('firstname');
           res.body.data.user.should.have.property('lastname');
           res.body.data.user.should.have.property('email');
+          res.body.data.user.should.have.property('isCommercial').eql(false);
+          res.body.data.user.should.have.property('_id');
+          res.body.data.user.should.have.property('createdAt');
+          res.body.data.user.should.have.property('updatedAt');
+          res.body.data.user.should.not.have.property('password');
+        done();
+        });
+    });
+    it('It should create a commercial if everything ok', (done) => {
+      chai
+        .request(server)
+        .post('/auth/register')
+        .send(commercial)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('user');
+          res.body.data.user.should.have.property('firstname');
+          res.body.data.user.should.have.property('lastname');
+          res.body.data.user.should.have.property('email');
+          res.body.data.user.should.have.property('isCommercial').eql(true);
           res.body.data.user.should.have.property('_id');
           res.body.data.user.should.have.property('createdAt');
           res.body.data.user.should.have.property('updatedAt');

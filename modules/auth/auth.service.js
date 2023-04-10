@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 export const signJwt = (user) => {
   const jwtApiKey = process.env.JWT_API_KEY;
-  return jwt.sign({ user: user._id }, jwtApiKey, {
+  return jwt.sign({ userId: user._id }, jwtApiKey, {
     expiresIn: '10h',
   });
 };

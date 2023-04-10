@@ -1,9 +1,13 @@
-import authRoutes from '../modules/auth/auth.route.js';
-import userRoutes from '../modules/user/user.route.js';
+import authRoutes from '../modules/auth/auth.routes.js';
+import userRoutes from '../modules/user/user.routes.js';
+import apartmentRoutes from '../modules/apartment/apartment.routes.js';
+import roomRoutes from '../modules/room/room.routes.js';
 
 export default async ({ app, cors }) => {
   app.use('/auth', cors(), authRoutes);
   app.use('/user', cors(), userRoutes);
+  app.use('/apartment', cors(), apartmentRoutes);
+  app.use('/room', cors(), roomRoutes);
 
   app.get('/healthChecker', (req, res, next) => {
     res.status(200).json({

@@ -26,6 +26,10 @@ const UserSchema = new Schema(
       type: String,
       required: 'Password must be specified',
     },
+    isCommercial: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
