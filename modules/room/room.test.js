@@ -6,11 +6,11 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import pkg from 'lodash';
 import server from '../../index.js';
-import roomModel from './room.model.js';
-import userModel from '../user/user.model.js';
+import Room from './room.model.js';
+import User from '../user/user.model.js';
 import { signJwt } from '../auth/auth.service.js'
 import { findUserByEmail } from '../user/user.service.js';
-import apartmentModel from '../apartment/apartment.model.js';
+import Apartment from '../apartment/apartment.model.js';
 
 const { omit } = pkg;
 
@@ -34,8 +34,8 @@ describe('Room', () => {
     const promises = [
       findUserByEmail('jane.doe@gmail.com'),
       findUserByEmail('john.doe@gmail.com'),
-      apartmentModel.findOne({}, {}, { sort: { 'created_at' : -1 } }),
-      roomModel.deleteMany({}),
+      Apartment.findOne({}, {}, { sort: { 'created_at' : -1 } }),
+      Room.deleteMany({}),
     ]
     Promise.all(promises).then(data => {
       const [user, commercial, apartment] = data;

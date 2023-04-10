@@ -5,7 +5,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import pkg from 'lodash';
 import server from '../../index.js';
-import userModel from '../user/user.model.js';
+import User from '../user/user.model.js';
 
 const { omit } = pkg;
 
@@ -32,7 +32,7 @@ const commercial = {
 describe('Auth', () => {
 
   before((done) => {
-    userModel.deleteMany({}, (err) => {
+    User.deleteMany({}, (err) => {
        done();
     });
   });
@@ -118,8 +118,8 @@ describe('Auth', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('status').eql('fail');
         res.body.should.have.property('message').eql('Invalid email or password');
-      done();
       });
+      done();
     });
     it('It should return an auth token', (done) => {
       chai
