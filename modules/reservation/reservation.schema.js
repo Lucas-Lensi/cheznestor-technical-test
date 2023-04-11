@@ -2,7 +2,7 @@
 import { body } from 'express-validator';
 
 export const createReservationSchema = () => [
-  body('userId', 'UserId is required').isString().notEmpty(),
-  body('roomId', 'RoomId is required').isString().notEmpty(),
+  body('userId', 'UserId is required').isString().bail().notEmpty(),
+  body('roomId', 'RoomId is required').isString().bail().notEmpty(),
   body('status').optional().isString().isIn(['booked', 'done']),
 ];

@@ -1,5 +1,7 @@
 # Technical test - Chez Nestor - Lucas Lensi
 
+You can access this app at : https://chez-nestor-lucas-lensi.herokuapp.com
+
 ---
 
 ## Database model
@@ -18,7 +20,7 @@ Create a .env file with:
 
 - PORT = YOUR_PORT
 - MONGODB_URI_DEVELOPMENT = YOUR_MONGODB_URI_DEVELOPMENT
-- MONGODB_URI_TEST = YOUR_MONGODB_TEST
+- MONGODB_URI_TEST = YOUR_MONGODB_URI_TEST
 - JWT_API_KEY = CUSTOM_JWT_API_KEY
 
 ## Running the project
