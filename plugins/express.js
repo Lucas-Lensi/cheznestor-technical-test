@@ -20,11 +20,5 @@ export default async ({ app }) => {
 
   await routeurLoader({ app, cors });
 
-  app.get('*', (req, res) => {
-    res
-      .status(404)
-      .send({ 'bad-request 404': 'The requested route is not implemented' });
-  });
-
   return app;
 };
