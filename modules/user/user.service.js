@@ -10,11 +10,11 @@ export const createUser = async (input) => {
 
 export const findUserById = async (_id) => {
   const user = await User.findById(_id).exec();
-  return user ? omit(user.toObject(), 'password') : user;
+  return user;
 };
 
 export const findUserByEmail = async (email) => {
-  const user = await User.findOne({ email }).exec();
+  const user = await User.findOne({ email }).select('+password').exec();
   return user;
 };
 
