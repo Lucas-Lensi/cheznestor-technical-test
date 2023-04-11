@@ -11,6 +11,8 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    'no-underscore-dangle': 'off',
+    'consistent-return': 'off',
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
     camelcase: 'off',
