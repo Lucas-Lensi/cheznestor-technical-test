@@ -5,7 +5,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import pkg from 'lodash';
 import server from '../../index.js';
-import userModel from './user.model.js';
+import User from './user.model.js';
 import { signJwt } from '../auth/auth.service.js'
 
 const { omit } = pkg;
@@ -17,7 +17,7 @@ describe('User', () => {
   let token;
 
   before((done) => {
-    userModel.findOne({}, {}, { sort: { 'created_at' : -1 } }, async (err, user) => {
+    User.findOne({}, {}, { sort: { 'created_at' : -1 } }, async (err, user) => {
       token = await signJwt(user);
       done();
     });

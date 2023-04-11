@@ -10,8 +10,8 @@ export const loginSchema = () => [
 ];
 
 export const registerSchema = () => [
-  body('firstname', 'Firstname is required').isString(),
-  body('lastname', 'Lastname is required').isString(),
+  body('firstname', 'Firstname is required').isString().notEmpty(),
+  body('lastname', 'Lastname is required').isString().notEmpty(),
   body('email', 'Email is required')
     .notEmpty()
     .bail()

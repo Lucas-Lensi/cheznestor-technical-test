@@ -6,8 +6,8 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import pkg from 'lodash';
 import server from '../../index.js';
-import apartmentModel from './apartment.model.js';
-import userModel from '../user/user.model.js';
+import Apartment from './apartment.model.js';
+import User from '../user/user.model.js';
 import { signJwt } from '../auth/auth.service.js'
 import { findUserByEmail } from '../user/user.service.js';
 
@@ -38,7 +38,7 @@ describe('Apartment', () => {
     const promises = [
       findUserByEmail('jane.doe@gmail.com'),
       findUserByEmail('john.doe@gmail.com'),
-      apartmentModel.deleteMany({}),
+      Apartment.deleteMany({}),
     ]
     Promise.all(promises).then(data => {
       const [user, commercial] = data;

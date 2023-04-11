@@ -1,5 +1,6 @@
 import AppError from '../../plugins/appError.js';
 import { findApartmentById } from '../apartment/apartment.service.js';
+import { findCurrentReservationFromRoom } from '../reservation/reservation.service.js';
 import {
   createRoom,
   findRoomById,
@@ -28,6 +29,7 @@ export const createRoomHandler = async (req, res, next) => {
 export const getRoomByIdHandler = async (req, res, next) => {
   try {
     const room = await findRoomById(req.params.id);
+    room.available = !(await findCurrentReservationFromRoom(room._id));
     return res.status(200).json({
       status: 'success',
       data: { room },
