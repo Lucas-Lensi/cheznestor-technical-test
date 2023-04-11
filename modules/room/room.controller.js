@@ -29,7 +29,7 @@ export const createRoomHandler = async (req, res, next) => {
 export const getRoomByIdHandler = async (req, res, next) => {
   try {
     const room = await findRoomById(req.params.id);
-    room.available = !(await findCurrentReservationFromRoom(room._id));
+    room.available = !(await findCurrentReservationFromRoom(room._id).length);
     return res.status(200).json({
       status: 'success',
       data: { room },

@@ -25,6 +25,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: 'Password must be specified',
+      select: false,
     },
     isCommercial: {
       type: Boolean,
