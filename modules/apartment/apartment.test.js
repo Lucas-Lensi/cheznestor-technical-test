@@ -9,7 +9,7 @@ import server from '../../index.js';
 import Apartment from './apartment.model.js';
 import User from '../user/user.model.js';
 import { signJwt } from '../auth/auth.service.js'
-import { findUserByEmail } from '../user/user.service.js';
+import { findUserByEmail } from '../user/user.repository.js';
 
 const { omit } = pkg;
 

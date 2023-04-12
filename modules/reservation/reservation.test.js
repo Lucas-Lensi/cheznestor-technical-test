@@ -9,9 +9,9 @@ import pkg from 'lodash';
 import server from '../../index.js';
 import Reservation from './reservation.model.js';
 import { signJwt } from '../auth/auth.service.js'
-import { findUserByEmail } from '../user/user.service.js';
+import { findUserByEmail } from '../user/user.repository.js';
 import Room from '../room/room.model.js';
-import { createRoom } from '../room/room.service.js';
+import { createRoom } from '../room/room.repository.js';
 import Apartment from '../apartment/apartment.model.js';
 
 const { omit } = pkg;
@@ -114,6 +114,7 @@ describe('Reservation', () => {
           res.body.data.reservation.should.have.property('userId');
           res.body.data.reservation.should.have.property('roomId');
           res.body.data.reservation.should.have.property('status');
+          res.body.data.reservation.should.have.property('rental').eql(1000);
           done();
         });
     });

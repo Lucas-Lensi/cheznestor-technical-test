@@ -1,19 +1,21 @@
 /* eslint-disable prettier/prettier */
 import AppError from '../../plugins/appError.js';
-import { findRoomById } from '../room/room.service.js';
-import { findUserById } from '../user/user.service.js';
+import { findRoomById } from '../room/room.repository.js';
+import { findUserById } from '../user/user.repository.js';
 import {
   createReservation,
   findReservationById,
   endReservation,
   findCurrentReservationFromRoom,
   findCurrentReservationFromUser
-} from './reservation.service.js';
+} from './reservation.repository.js';
+import { calculateRental } from './reservation.service.js';
 
 export const createReservationHandler = async (req, res, next) => {
   try {
-    const user = await findUserById( req.body.userId);
-    const room = await findRoomById(req.body.roomId);
+    const reservationInput = req.body;
+    const user = await findUserById(reservationInput.userId);
+    const room = await findRoomById(reservationInput.roomId);
 
     if (!user || !room)
       return next(new AppError('User or room not found', 404));
@@ -24,7 +26,9 @@ export const createReservationHandler = async (req, res, next) => {
     if ((await findCurrentReservationFromUser(user)).length)
       return next(new AppError('User already booked', 409));
 
-    const reservation = await createReservation(req.body);
+    reservationInput.rental = await calculateRental(room);
+
+    const reservation = await createReservation(reservationInput);
     return res.status(201).json({
       status: 'success',
       data: { reservation },

@@ -19,6 +19,7 @@ const Reservation = new Schema(
       enum: ['booked', 'done'],
       default: 'booked',
     },
+    rental: Number,
   },
   { timestamps: true }
 );

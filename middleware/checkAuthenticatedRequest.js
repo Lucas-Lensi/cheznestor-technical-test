@@ -1,6 +1,6 @@
 import AppError from '../plugins/appError.js';
 import { verifyJwt } from '../modules/auth/auth.service.js';
-import { findUserById } from '../modules/user/user.service.js';
+import { findUserById } from '../modules/user/user.repository.js';
 
 export default async (req, res, next) => {
   try {

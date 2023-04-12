@@ -4,7 +4,7 @@ import {
   findAllApartments,
   findApartmentById,
   updateApartmentById,
-} from './apartment.service.js';
+} from './apartment.repository.js';
 
 export const createApartmentHandler = async (req, res, next) => {
   try {

@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/extensions
 import AppError from '../../plugins/appError.js';
-import { deleteUserById, findUserById } from './user.service.js';
+import { deleteUserById, findUserById } from './user.repository.js';
 
 // eslint-disable-next-line import/prefer-default-export
 export const deleteUserHandler = async (req, res, next) => {

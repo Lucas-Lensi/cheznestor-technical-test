@@ -10,4 +10,4 @@ export const verifyJwt = (token, jwtApiKey = null) =>
   jwt.verify(token, jwtApiKey || process.env.JWT_API_KEY);
 
 export const comparePasswords = (candidatePassword, password) =>
-  bcrypt.compare(candidatePassword, password);
+  bcrypt.compareSync(candidatePassword, password);
