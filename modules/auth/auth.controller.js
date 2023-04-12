@@ -1,5 +1,6 @@
 import AppError from '../../plugins/appError.js';
-import { createUser, findUserByEmail } from '../user/user.service.js';
+import { createUser, findUserByEmail } from '../user/user.repository.js';
+import { deletePasswordFromUser } from '../user/user.service.js';
 import { comparePasswords, signJwt } from './auth.service.js';
 
 export const loginHandler = async (req, res, next) => {
@@ -24,7 +25,8 @@ export const registerHandler = async (req, res, next) => {
     const existingUser = await findUserByEmail(req.body.email);
     if (existingUser) return next(new AppError('User already exist', 409));
 
-    const user = await createUser(req.body);
+    const userDocument = await createUser(req.body);
+    const user = await deletePasswordFromUser(userDocument.toObject());
 
     return res.status(201).json({
       status: 'success',

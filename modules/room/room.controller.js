@@ -1,12 +1,12 @@
 import AppError from '../../plugins/appError.js';
-import { findApartmentById } from '../apartment/apartment.service.js';
-import { findCurrentReservationFromRoom } from '../reservation/reservation.service.js';
+import { findApartmentById } from '../apartment/apartment.repository.js';
+import { findCurrentReservationFromRoom } from '../reservation/reservation.repository.js';
 import {
   createRoom,
   findRoomById,
   findAllRooms,
   updateRoomById,
-} from './room.service.js';
+} from './room.repository.js';
 
 export const createRoomHandler = async (req, res, next) => {
   try {
