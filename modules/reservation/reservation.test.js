@@ -22,6 +22,7 @@ chai.use(chaiHttp);
 describe('Reservation', () => {
   let token;
   let user;
+  let secondUser;
   let apartment;
   let rooms;
 
@@ -41,11 +42,12 @@ describe('Reservation', () => {
     const promises = [
       Reservation.deleteMany({}),
       findUserByEmail('jane.doe@gmail.com'),
+      findUserByEmail('john.doe@gmail.com'),
       Apartment.findOne({}, {}, { sort: { 'created_at' : -1 } }),
       Room.findOne({}, {}, { sort: { 'created_at' : -1 } }),
     ]
     Promise.all(promises).then(data => {
-      [,user, apartment, ...rooms] = data;
+      [,user, secondUser, apartment, ...rooms] = data;
       token = signJwt(user);
       room.apartmentId = apartment._id;
       createRoom(room).then(el => {
@@ -129,8 +131,19 @@ describe('Reservation', () => {
           res.body.should.have.property('status').eql('fail');
           res.body.should.have.property('message');
           res.body.should.have.property('message').eql('User already booked');
-          done();
         });
+      chai
+        .request(server)
+        .post('/reservation')
+        .set({ "Authorization": `Bearer ${token}` })
+        .send({ userId: secondUser._id, roomId: rooms[0].id })
+        .end((err, res) => {
+          res.should.have.status(409);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message');
+          res.body.should.have.property('message').eql('Room already booked');
+        });
+        done();
     });
   });
 
